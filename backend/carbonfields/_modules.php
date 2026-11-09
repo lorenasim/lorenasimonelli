@@ -12,6 +12,11 @@ Container::make('post_meta', 'Module')
                 Field::make('text', 'title', 'Titel')->set_required(),
                 Field::make('image', 'image', 'Bild')->set_required(),
             ])
+            // hero_front
+            ->add_fields('hero_front', 'Hero Startseite', [
+                Field::make('file', 'video_startseite', 'Video')->set_type('video'),
+
+            ])
             // todo: add new modules here
             // -> SETTINGS
             ->set_layout('tabbed-vertical')
@@ -29,6 +34,8 @@ function render_modules (): void {
             case 'example':
                 $module['image'] = get_media_by_id($module['image'], 'full');
                 break;
+            case 'hero_front':
+                $module['video_startseite'] = get_media_by_id($module['video_startseite']);
                 // todo: add data modifications for modules here as a new case
         }
         // -> Laden des Templates basierend auf dem Modultyp und weitergeben der Daten

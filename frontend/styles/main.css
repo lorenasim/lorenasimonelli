@@ -259,9 +259,7 @@ body {
     width: 100%;
     height: 100%;
 }
-[data-page="project"] {
-    background-color: rgba(249,55,249);
-}
+
 
 [data-module] {
     overflow: clip;
