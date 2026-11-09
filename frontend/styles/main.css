@@ -4,73 +4,271 @@
 /* Definition of base styles. */
 :root {
     /* colors */
-    --color-white: #ffffff;
-    --color-black: #000000;
-    --color-accent: #ff0000;
+    --color-white: #f9f9f9;
+    --color-black: #262626;
+    --color-accent: #e4f227;
+
     /* gaps & sizes */
-    --gap-around: 40px;
+    --color-background: var(--color-white);
+    --color-text: var(--color-black);
+
+    /* Abstände */
+    --gap-around: clamp(20px, 4vw, 64px);
+    
     /* fonts */
-    --font-h1: normal 64px/120% serif;
+    --font-body: "Poppins", Arial, sans-serif;
+    --font-display: "Poppins", Arial, sans-serif;
+    
+
+    /* Bold Italic für große Titel */
+    --font-h1: italic 700 64px/1.2 var(--font-display);
 }
 
-/* Styling of all available layout components. */
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -1.5px;
+
+    background-color: var(--color-background);
+    background-image:
+        /* Oben */
+        radial-gradient(
+            ellipse 70% 50% at 50% 10%,
+            rgba(228, 242, 39, 0.95) 0%,
+            rgba(228, 242, 39, 0) 70%
+        ),
+        /* Mitte (jetzt kräftiger mit 0.95 statt 0.8) */
+        radial-gradient(
+            ellipse 75% 60% at 50% 50%,
+            rgba(228, 242, 39, 0.95) 0%,
+            rgba(228, 242, 39, 0) 70%
+        ),
+        /* Unten */
+        radial-gradient(
+            ellipse 70% 50% at 50% 90%,
+            rgba(228, 242, 39, 0.95) 0%,
+            rgba(228, 242, 39, 0) 70%
+        );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* ==========================================
+   HEADER
+   ================================          */
+/* HEADER: Transparent, absolut über dem Bild mit zentriertem Logo & rechtem Menü */
 [data-layout="header"] {
-    padding: var(--gap-around);
-    background-color: var(--color-accent);
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
     z-index: 100;
+
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    .nav-container {
-        .nav{
-            list-style: none;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            align-self: center;
-            gap: 20px;
-            a{
-                text-decoration: none;
-                color: var(--color-white);
-            }
-        }
-    }
+    gap: 24px;
+ 
+    padding: 40px var(--gap-around);
+    background-color: transparent;
+    color: var(--color-black);
 }
 
+/* Unsichtbarer Platzhalter links, damit das Logo absolut zentriert bleibt */
+[data-layout="header"]::before {
+    content: "";
+    width: 180px;
+    flex-shrink: 0;
+}
+
+/* Logo landet exakt in der Mitte */
+[data-layout="header"] .logo {
+    max-height: 45px;
+    width: auto;
+}
+
+/* Menü im Header rechts nebeneinander mit fester Breite als Gegengewicht */
+[data-layout="header"] .nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 180px;
+    flex-shrink: 0;
+    justify-content: flex-end;
+}
+
+[data-layout="header"] .nav li {
+    display: inline-block;
+}
+
+[data-layout="header"] .nav a {
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    transition: color 0.2s ease;
+    font-size: 22px;
+    color: var(--color-accent);
+}
+
+[data-layout="header"] .nav a:hover {
+    color: #920048;
+}
+
+
+/* ==========================================
+   FOOTER
+   ================================          */
 [data-layout="footer"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 100px);
+    box-sizing: border-box;
     padding: var(--gap-around);
-    background-color: var(--color-accent);
-    .nav-container {
-        .nav{
-            list-style: none;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            align-self: center;
-            gap: 20px;
-            a{
-                text-decoration: none;
-                color: var(--color-white);
-            }
-        }
-    }
+    background: transparent;
+    color: var(--color-black);
 }
 
-/* Styling of all available page components. */
+/* Mittlerer Bereich: Logo, E-Mail und Socials untereinander zentriert */
+[data-layout="footer"] .footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: auto 0;
+    gap: 12px;
+}
+
+[data-layout="footer"] .logo2 {
+    width: auto;
+    max-width: 100%;
+    max-height: 55px;
+    margin-bottom: 8px;
+}
+
+[data-layout="footer"] .footer-email {
+    font-size: clamp(16px, 1.8vw, 22px);
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+}
+
+[data-layout="footer"] .footer-email:hover {
+    color: #920048;
+}
+
+/* Socials untereinander in einer Spalte zentriert */
+[data-layout="footer"] .socials {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    font-style: italic;
+}
+
+[data-layout="footer"] .socials a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Socials Hover-Effekt */
+[data-layout="footer"] .socials a:hover {
+    color: #920048;
+}
+
+/* Unterster Bereich: Contact & Menü */
+[data-layout="footer"] .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: auto;
+}
+
+[data-layout="footer"] .footer-big-title {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+}
+
+[data-layout="footer"] .contact-svg {
+    height: clamp(40px, 8vw, 110px);
+    max-width: 100%;
+    max-height: none;
+    display: block;
+    transform: scaleY(1.25); /* Streckt das SVG in der Höhe (1.25 = 25% höher, taste dich von 1.1 bis 1.4 heran) */
+    transform-origin: bottom; /* Hält das SVG am unteren Rand fixiert, damit es beim Strecken nicht nach oben verspringt */
+}
+
+[data-layout="footer"] .footer-subtitle {
+    font-size: 35px;
+    font-style: italic;
+}
+
+/* Menü im Footer (Datenschutz / Impressum) rechts unten untereinander */
+[data-layout="footer"] .footer-bottom .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+}
+
+[data-layout="footer"] .footer-bottom .nav a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+/* Footer Nav Hover-Effekt */
+[data-layout="footer"] .footer-bottom .nav a:hover {
+    color: #920048;
+}
+
+
+/* ==========================================
+   PAGE & MODULE COMPONENTS
+   ================================          */
 [data-page] {
     width: 100%;
     height: 100%;
 }
+[data-page="project"] {
+    background-color: rgba(249,55,249);
+}
 
-/* Styling of all available module components. */
 [data-module] {
     overflow: clip;
     position: relative;
     width: 100%;
 }
+
 [data-module="example"] {
     display: flex;
     flex-direction: column;
@@ -91,10 +289,6 @@
         text-align: center;
     }
 }
-
-/* Styling of all available teaser components. */
-
-/* Styling of utility classes, can be added anywhere in the project. */
 
 /* BREAKPOINT: 3xl */
 @media (max-width: 1514px) {}
