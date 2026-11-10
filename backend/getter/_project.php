@@ -10,6 +10,7 @@ function get_project_by_id(int $id): array {
     $behind_title = carbon_get_post_meta($id, 'behind_title');
     $text_story = carbon_get_post_meta($id, 'text_story');
     $text_people = carbon_get_post_meta($id, 'text_people');
+    $link = get_permalink($id);
     
     //return data
     return [
@@ -18,7 +19,8 @@ function get_project_by_id(int $id): array {
         'bereich_title' => $bereich_title,
         'behind_title' => $behind_title,
         'text_story' => $text_story,
-        'text_people' => $text_people
+        'text_people' => $text_people,
+        'link' => $link
     ];
 }
  
