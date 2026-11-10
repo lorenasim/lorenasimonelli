@@ -17,6 +17,7 @@ Container::make('post_meta', 'Module')
                 Field::make('file', 'video_startseite', 'Video Startseite')->set_type('video'),
 
             ])
+
             // overview_projects
             ->add_fields('overview_projects', 'Übersicht Projekte', [
                 Field::make('image', 'title_section', 'Titel')->set_required(),
@@ -29,6 +30,24 @@ Container::make('post_meta', 'Module')
                 
                         ])
             ])
+            // Text
+            ->add_fields('text', 'Text', [
+                Field::make('text', 'title', 'Titel'),
+                Field::make('rich_text', 'text', 'Text')
+                ])
+
+            // Bilder
+            ->add_fields('images', 'Bilder', [
+                Field::make('media_gallery', 'images', 'Bilder')
+
+                ])
+
+            // Videos
+            ->add_fields('file', 'Video', [
+                Field::make('file', 'video', 'Video')->set_type('video'),
+
+                ])
+                
             // todo: add new modules here
             // -> SETTINGS
             ->set_layout('tabbed-vertical')
@@ -46,17 +65,26 @@ function render_modules (): void {
             case 'example':
                 $module['image'] = get_media_by_id($module['image'], 'full');
                 break;
+
             case 'hero_front':
                 $module['video_startseite'] = get_media_by_id($module['video_startseite']);
                 break;
+
             case 'overview_projects':
                 $module['selection'] = array_map(function ($item) {
                     return (int) $item ['id'];
                 }, $module['selection']);
-                // Hier wird die ID des Bildes in ein Medien-Array mit 'src' umgewandelt
-                if (!empty($module['title_section'])) {
-                    $module['title_section'] = get_media_by_id($module['title_section'], 'full');
-                }
+                $module['title_section'] = get_media_by_id($module['title_section'], 'full');
+                break;
+
+            case 'images':
+                $module['images'] = array_map(function ($id) {
+                    return get_media_by_id($id, 'full');
+                }, $module['images']);
+                break;
+
+            case 'file':
+                $module['video'] = get_media_by_id($module['video']);
                 break;
         }
         

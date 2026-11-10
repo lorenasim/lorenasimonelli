@@ -5,6 +5,11 @@ function get_project_by_id(int $id): array {
     $title = get_the_title($id);
     $image_id = carbon_get_post_meta($id, 'image');
     $image = get_media_by_id($image_id);
+
+    // Hier holen wir die Video-ID und wandeln sie direkt in ein Media-Array um (wie bei den anderen Modulen)
+    $video_id = carbon_get_post_meta($id, 'video');
+    $video = get_media_by_id($video_id);
+
     $bereich_title = carbon_get_post_meta($id, 'bereich_title');
     $bereich_title = carbon_get_post_meta($id, 'bereich_title');
     $behind_title = carbon_get_post_meta($id, 'behind_title');
@@ -16,6 +21,7 @@ function get_project_by_id(int $id): array {
     return [
         'title' => $title,
         'image' => $image,
+        'video' => $video, 
         'bereich_title' => $bereich_title,
         'behind_title' => $behind_title,
         'text_story' => $text_story,
