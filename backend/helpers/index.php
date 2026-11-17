@@ -53,3 +53,13 @@ function get_menu_by_slug(string $slug): array
     }
     return $items;
 }
+
+// -> Hängt einen Punkt an (Designmerkmal «Work.», «Story.»), falls noch keiner da ist
+function with_dot(?string $text): string
+{
+    $text = trim((string) $text);
+    if ($text === '' || str_ends_with($text, '.')) {
+        return $text;
+    }
+    return $text . '.';
+}

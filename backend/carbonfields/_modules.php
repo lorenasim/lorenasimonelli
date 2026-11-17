@@ -21,7 +21,8 @@ Container::make('post_meta', 'Module')
             // overview_projects
             ->add_fields('overview_projects', 'Übersicht Projekte', [
                 Field::make('image', 'title_section', 'Titel')->set_required(),
-                Field::make('rich_text', 'text', 'Text')->set_required(),
+                Field::make('text', 'subline', 'Subline (z. B. «Selected.»)'),
+                Field::make('rich_text', 'text', 'Text / Kategorien')->set_required(),
                 Field::make('association', 'selection', 'Auswahl Projekte')
                 ->set_types([
                         [
@@ -82,8 +83,8 @@ function render_modules (): void {
 
             case 'overview_projects':
                 $module['selection'] = array_map(function ($item) {
-                    return (int) $item ['id'];
-                }, $module['selection']);
+                    return (int) $item['id'];
+                }, $module['selection'] ?? []);
                 $module['title_section'] = get_media_by_id($module['title_section'], 'full');
                 break;
 
