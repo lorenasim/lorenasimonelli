@@ -14,14 +14,32 @@ Container::make('post_meta', 'Module')
             ])
             // hero_front
             ->add_fields('hero_front', 'Hero Startseite', [
-                Field::make('file', 'video_startseite', 'Video Startseite')->set_type('video'),
-
+                // Mehrere Videos, die abwechselnd je einen Ausschnitt zeigen
+                Field::make('complex', 'videos', 'Videos (wechseln automatisch)')
+                    ->add_fields([
+                        Field::make('file', 'video', 'Video')->set_type('video')->set_required(),
+                        Field::make('text', 'start', 'Start bei Sekunde')
+                            ->set_attribute('type', 'number')
+                            ->set_attribute('min', 0)
+                            ->set_default_value(0)
+                            ->set_width(50),
+                        Field::make('text', 'dauer', 'Dauer in Sekunden')
+                            ->set_attribute('type', 'number')
+                            ->set_attribute('min', 1)
+                            ->set_default_value(4)
+                            ->set_width(50),
+                    ])
+                    ->set_header_template('Ausschnitt <%- $_index + 1 %>')
+                    ->set_layout('tabbed-horizontal'),
+                // Altes Einzelvideo bleibt als Fallback erhalten
+                Field::make('file', 'video_startseite', 'Einzelnes Video (Fallback, wenn oben nichts erfasst ist)')->set_type('video'),
             ])
 
             // overview_projects
             ->add_fields('overview_projects', 'Übersicht Projekte', [
                 Field::make('image', 'title_section', 'Titel')->set_required(),
-                Field::make('rich_text', 'text', 'Text')->set_required(),
+                Field::make('text', 'subline', 'Subline (z. B. «Selected.»)'),
+                Field::make('rich_text', 'text', 'Text / Kategorien')->set_required(),
                 Field::make('association', 'selection', 'Auswahl Projekte')
                 ->set_types([
                         [
@@ -77,13 +95,32 @@ function render_modules (): void {
                 break;
 
             case 'hero_front':
-                $module['video_startseite'] = get_media_by_id($module['video_startseite']);
+                $clips = [];
+                foreach ($module['videos'] ?? [] as $clip) {
+                    $media = get_media_by_id($clip['video']);
+                    if (!$media || empty($media['src'])) {
+                        continue;
+                    }
+                    $clips[] = [
+                        'src'   => $media['src'],
+                        'start' => max(0, (float) ($clip['start'] ?? 0)),
+                        'dauer' => max(1, (float) ($clip['dauer'] ?? 4)),
+                    ];
+                }
+                // Fallback: altes Einzelvideo
+                if (!$clips && !empty($module['video_startseite'])) {
+                    $media = get_media_by_id($module['video_startseite']);
+                    if ($media && !empty($media['src'])) {
+                        $clips[] = ['src' => $media['src'], 'start' => 0, 'dauer' => 0];
+                    }
+                }
+                $module['clips'] = $clips;
                 break;
 
             case 'overview_projects':
                 $module['selection'] = array_map(function ($item) {
-                    return (int) $item ['id'];
-                }, $module['selection']);
+                    return (int) $item['id'];
+                }, $module['selection'] ?? []);
                 $module['title_section'] = get_media_by_id($module['title_section'], 'full');
                 break;
 

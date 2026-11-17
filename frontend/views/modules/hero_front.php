@@ -1,12 +1,20 @@
 <?php
 $data = $args['data'];
-//hier kommt mein Startseiten Hero rein
+$clips = $data['clips'] ?? [];
 ?>
+
 <section data-module="hero_front">
-
-<video class="hero-video" autoplay muted loop playsinline>
-        <source src="<?= $data['video_startseite']['src'] ?? $data['video_startseite']; ?>" type="video/mp4">
-        Dein Browser unterstützt kein Video-Tag.
-    </video>
-
+    <?php foreach ($clips as $i => $clip) : ?>
+        <video
+            class="hero-video<?= $i === 0 ? ' is-active' : '' ?>"
+            muted
+            playsinline
+            preload="<?= $i === 0 ? 'auto' : 'metadata' ?>"
+            <?= count($clips) === 1 ? 'loop autoplay' : '' ?>
+            data-start="<?= esc_attr($clip['start']) ?>"
+            data-dauer="<?= esc_attr($clip['dauer']) ?>"
+        >
+            <source src="<?= esc_url($clip['src']) ?>" type="video/mp4">
+        </video>
+    <?php endforeach; ?>
 </section>

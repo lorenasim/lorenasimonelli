@@ -5,14 +5,14 @@ use Carbon_Fields\Field;
 // -> Inhaltsfeld-Konfiguration der globalen Einstellungen des Themes
 Container::make('theme_options', 'Globales')
     ->add_fields([
-        field::make('image', 'logo','Logo')->set_required(),
-        field::make('image', 'logo2','Logo2'),
-        field::make('complex', 'socials', 'Socials')
+        Field::make('image', 'logo', 'Logo (hell, für Startseite über dem Video)')->set_required(),
+        Field::make('image', 'logo2', 'Logo dunkel (Footer & Projektseiten)'),
+        Field::make('text', 'email', 'E-Mail-Adresse Kontakt'),
+        Field::make('complex', 'socials', 'Socials')
             ->add_fields([
-                field::make('text', 'title', 'Titel')->set_required(),
-                field::make('text', 'link', 'Link')->set_required(),
+                Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('text', 'link', 'Link')->set_required(),
             ])
             ->set_header_template('<% if (title) { %><%- title %><% } %>')
             ->set_layout('tabbed-vertical'),
-            // todo: Globale Inhaltsfelder hier ergänzen
     ]);
