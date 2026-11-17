@@ -6,9 +6,9 @@ use Carbon_Fields\Field;
 Container::make('post_meta', 'Projekt')
     ->where('post_type', '=', 'project')
     ->add_fields([
-        Field::make('image', 'image', 'Bild'),
+        Field::make('image', 'image', 'Bild (Teaser auf der Startseite & Vorschaubild des Videos)'),
 
-        Field::make('file', 'video', 'Video')
+        Field::make('file', 'video', 'Video (optional – wird auf der Projektseite per Klick abgespielt)')
             ->set_type('video'),
 
         Field::make('text', 'title', 'Titel')

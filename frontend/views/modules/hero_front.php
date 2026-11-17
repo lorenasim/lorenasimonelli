@@ -1,12 +1,20 @@
 <?php
 $data = $args['data'];
-$video = $data['video_startseite'] ?? false;
+$clips = $data['clips'] ?? [];
 ?>
 
 <section data-module="hero_front">
-    <?php if ($video && !empty($video['src'])) : ?>
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="<?= $video['src'] ?>" type="video/mp4">
+    <?php foreach ($clips as $i => $clip) : ?>
+        <video
+            class="hero-video<?= $i === 0 ? ' is-active' : '' ?>"
+            muted
+            playsinline
+            preload="<?= $i === 0 ? 'auto' : 'metadata' ?>"
+            <?= count($clips) === 1 ? 'loop autoplay' : '' ?>
+            data-start="<?= esc_attr($clip['start']) ?>"
+            data-dauer="<?= esc_attr($clip['dauer']) ?>"
+        >
+            <source src="<?= esc_url($clip['src']) ?>" type="video/mp4">
         </video>
-    <?php endif; ?>
+    <?php endforeach; ?>
 </section>

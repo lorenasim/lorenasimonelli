@@ -6,12 +6,18 @@ $behind_title = $project['behind_title'] ?: 'Behind the project.';
 <main data-page="project">
     <section class="project-hero">
         <?php if ($project['video'] && !empty($project['video']['src'])) : ?>
-            <video class="hero-media" autoplay muted loop playsinline
-                <?php if ($project['image']) : ?>poster="<?= $project['image']['src'] ?>"<?php endif; ?>>
-                <source src="<?= $project['video']['src'] ?>" type="video/mp4">
-            </video>
+            <!-- Video: zuerst Vorschaubild mit Play-Button, beim Klick startet das Video mit Ton -->
+            <div class="project-player" data-player>
+                <video class="hero-media" preload="metadata" playsinline
+                    <?php if ($project['image']) : ?>poster="<?= esc_url($project['image']['src']) ?>"<?php endif; ?>>
+                    <source src="<?= esc_url($project['video']['src']) ?>" type="video/mp4">
+                </video>
+                <button class="play-button" type="button" aria-label="Video abspielen">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
         <?php elseif ($project['image']) : ?>
-            <img class="hero-media" src="<?= $project['image']['src'] ?>" alt="<?= $project['image']['alt'] ?>">
+            <img class="hero-media" src="<?= esc_url($project['image']['src']) ?>" alt="<?= esc_attr($project['image']['alt']) ?>">
         <?php endif; ?>
     </section>
 
