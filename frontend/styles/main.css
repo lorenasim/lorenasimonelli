@@ -32,6 +32,9 @@
     --fs-m: clamp(20px, 2.35vw, 30px);          /* 30px */
     --fs-text: clamp(17px, 1.95vw, 25px);       /* 25px Projekttext */
     --fs-s: clamp(14px, 1.56vw, 20px);          /* 20px */
+
+    /* Gelber Verlauf: Breite der weichen «Säule» in der Mitte */
+    --glow-width: 42%;
 }
 
 body {
@@ -44,18 +47,20 @@ body {
     line-height: 1.5;
     letter-spacing: var(--tracking);
 
-    /* Gelber Verlauf: schmale «Säule» in der Mitte + grosser Schein unten (Figma: Background blur / Ellipse 8) */
+    /* Gelber Verlauf: weiche «Säule» in der Mitte + grosser Schein unten (Figma: Background blur / Ellipse 8) */
     background-color: var(--color-background);
     background-image:
         radial-gradient(
-            ellipse 30% 42% at 50% 52%,
-            rgba(228, 242, 39, 0.9) 0%,
+            ellipse var(--glow-width) 46% at 50% 52%,
+            rgba(228, 242, 39, 0.85) 0%,
+            rgba(228, 242, 39, 0.55) 30%,
+            rgba(228, 242, 39, 0.2) 65%,
             rgba(228, 242, 39, 0) 100%
         ),
         radial-gradient(
-            ellipse 75% 22% at 50% 100%,
+            ellipse 80% 24% at 50% 100%,
             rgba(228, 242, 39, 1) 0%,
-            rgba(228, 242, 39, 0.6) 45%,
+            rgba(228, 242, 39, 0.55) 45%,
             rgba(228, 242, 39, 0) 100%
         );
     background-repeat: no-repeat;
@@ -66,14 +71,16 @@ body {
 body.single-project {
     background-image:
         radial-gradient(
-            ellipse 30% 62% at 50% 30%,
-            rgba(228, 242, 39, 0.9) 0%,
+            ellipse var(--glow-width) 66% at 50% 30%,
+            rgba(228, 242, 39, 0.85) 0%,
+            rgba(228, 242, 39, 0.55) 30%,
+            rgba(228, 242, 39, 0.2) 65%,
             rgba(228, 242, 39, 0) 100%
         ),
         radial-gradient(
-            ellipse 75% 26% at 50% 100%,
+            ellipse 80% 28% at 50% 100%,
             rgba(228, 242, 39, 1) 0%,
-            rgba(228, 242, 39, 0.6) 45%,
+            rgba(228, 242, 39, 0.55) 45%,
             rgba(228, 242, 39, 0) 100%
         );
 }
@@ -641,6 +648,10 @@ video {
 }
 
 @media (max-width: 768px) {
+    :root {
+        --glow-width: 65%;
+    }
+
     /* Header: Logo links, Navigation rechts */
     [data-layout="header"] {
         grid-template-columns: auto 1fr;
