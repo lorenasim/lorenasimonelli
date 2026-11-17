@@ -22,6 +22,7 @@
 
     /* Bold Italic für große Titel */
     --font-h1: italic 700 64px/1.2 var(--font-display);
+    --letter-spacing-base: -1.5px;
 }
 
 body {
@@ -41,7 +42,7 @@ body {
             rgba(228, 242, 39, 0.95) 0%,
             rgba(228, 242, 39, 0) 70%
         ),
-        /* Mitte (jetzt kräftiger mit 0.95 statt 0.8) */
+        /* Mitte */
         radial-gradient(
             ellipse 75% 60% at 50% 50%,
             rgba(228, 242, 39, 0.95) 0%,
@@ -60,7 +61,6 @@ body {
 /* ==========================================
    HEADER
    ================================          */
-/* HEADER: Transparent, absolut über dem Bild mit zentriertem Logo & rechtem Menü */
 [data-layout="header"] {
     position: absolute;
     top: 0;
@@ -79,20 +79,17 @@ body {
     color: var(--color-black);
 }
 
-/* Unsichtbarer Platzhalter links, damit das Logo absolut zentriert bleibt */
 [data-layout="header"]::before {
     content: "";
     width: 180px;
     flex-shrink: 0;
 }
 
-/* Logo landet exakt in der Mitte */
 [data-layout="header"] .logo {
     max-height: 45px;
     width: auto;
 }
 
-/* Menü im Header rechts nebeneinander mit fester Breite als Gegengewicht */
 [data-layout="header"] .nav {
     display: flex;
     flex-direction: row;
@@ -126,6 +123,118 @@ body {
     color: #920048;
 }
 
+/* ==========================================
+   OVERVIEW PROJECTS & TEASER
+   ================================          */
+[data-module="overview_projects"] {
+    padding: 0 var(--gap-around) 80px var(--gap-around);
+}
+
+[data-module="overview_projects"] .title_section {
+    margin: 80px auto 40px var(--gap-around);
+    height: clamp(40px, 8vw, 110px);
+    max-width: 100%;
+    max-height: none;
+    display: block;
+    transform: scaleY(1.25);
+}
+
+[data-module="overview_projects"] .text {
+    margin-top: 150px;
+    margin-left: var(--gap-around);
+    max-width: 800px; 
+    font-family: var(--font-body);
+    font-size: 40px;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: var(--letter-spacing-base, -1.5px);
+}
+
+/* Da du H4 verwendet hast, sprechen wir direkt h4 an statt p */
+[data-module="overview_projects"] .text h4 {
+    font-size: inherit; /* Übernimmt die 40px vom Container */
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    line-height: 1.2;   /* Hier ziehst du die Zeilen extrem eng zusammen */
+    margin: 0 0 0.2em 0; /* Minimaler Abstand nach unten pro Zeile */
+}
+
+[data-module="overview_projects"] .projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 30px;
+    margin-top: 40px;
+    max-width: 550px;           /* Steuert die Gesamtgröße des Projekt-Grids */
+    margin-left: auto;          /* Schiebt den Bereich nach rechts */
+    margin-right: var(--gap-around);
+}
+
+[data-module="overview_projects"] .project-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+[data-module="overview_projects"] .project-link h3 {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    margin: 0;
+    color: var(--color-black);
+    transition: color 0.2s ease;
+}
+
+[data-module="overview_projects"] .project-link:hover h3 {
+    color: #920048;
+}
+
+[data-module="overview_projects"] .project-link .image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;       /* Proportionales 16:9 Format für die Projektbilder */
+    object-fit: cover;
+    display: block;
+}
+
+/* Auf Mobilgeräten untereinander einspaltig */
+@media (max-width: 768px) {
+    [data-module="overview_projects"] .projects {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+
+/* ==========================================
+   PROJECT DETAIL PAGE (Zentrierter Titel)
+   ================================          */
+
+
+
+/* Titel und Bereichs-Titel exakt in der Mitte zentriert */
+[data-page="project"] .title {
+    font: var(--font-h1);
+    margin: 40px auto 10px auto;
+    color: var(--color-black);
+    text-align: center;
+}
+
+[data-page="project"] .bereich_title {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    margin: 0 auto 40px auto;
+    color: var(--color-accent);
+    text-align: center;
+}
+
 
 /* ==========================================
    FOOTER
@@ -141,7 +250,6 @@ body {
     color: var(--color-black);
 }
 
-/* Mittlerer Bereich: Logo, E-Mail und Socials untereinander zentriert */
 [data-layout="footer"] .footer-center {
     display: flex;
     flex-direction: column;
@@ -169,7 +277,6 @@ body {
     color: #920048;
 }
 
-/* Socials untereinander in einer Spalte zentriert */
 [data-layout="footer"] .socials {
     display: flex;
     flex-direction: column;
@@ -189,12 +296,10 @@ body {
     transition: color 0.2s ease;
 }
 
-/* Socials Hover-Effekt */
 [data-layout="footer"] .socials a:hover {
     color: #920048;
 }
 
-/* Unterster Bereich: Contact & Menü */
 [data-layout="footer"] .footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -214,8 +319,8 @@ body {
     max-width: 100%;
     max-height: none;
     display: block;
-    transform: scaleY(1.25); /* Streckt das SVG in der Höhe (1.25 = 25% höher, taste dich von 1.1 bis 1.4 heran) */
-    transform-origin: bottom; /* Hält das SVG am unteren Rand fixiert, damit es beim Strecken nicht nach oben verspringt */
+    transform: scaleY(1.25);
+    transform-origin: bottom;
 }
 
 [data-layout="footer"] .footer-subtitle {
@@ -223,7 +328,6 @@ body {
     font-style: italic;
 }
 
-/* Menü im Footer (Datenschutz / Impressum) rechts unten untereinander */
 [data-layout="footer"] .footer-bottom .nav {
     display: flex;
     flex-direction: column;
@@ -246,7 +350,6 @@ body {
     transition: color 0.2s ease;
 }
 
-/* Footer Nav Hover-Effekt */
 [data-layout="footer"] .footer-bottom .nav a:hover {
     color: #920048;
 }
@@ -260,7 +363,6 @@ body {
     height: 100%;
 }
 
-
 [data-module] {
     overflow: clip;
     position: relative;
@@ -273,38 +375,65 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    & > .image {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        inset: 0;
-    }
-    & > .title {
-        position: relative;
-        color: white;
-        font: var(--font-h1);
-        text-align: center;
+}
+
+[data-module="example"] > .image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    inset: 0;
+}
+
+[data-module="example"] > .title {
+    position: relative;
+    color: white;
+    font: var(--font-h1);
+    text-align: center;
+}
+
+/* ==========================================
+   HERO FRONT MODULE (STARTSEITEN VIDEO)
+   ================================          */
+[data-module="hero_front"] {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-module="hero_front"] .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    z-index: 1;
+}
+
+
+/* ==========================================
+   BREAKPOINTS & RESPONSIVE ANPASSUNGEN
+   ================================          */
+@media (min-width: 1921px) {
+    [data-module="hero_front"] {
+        max-height: 1080px;
     }
 }
 
-/* BREAKPOINT: 3xl */
-@media (max-width: 1514px) {}
+@media (max-width: 1280px) {
+    [data-module="hero_front"] {
+        height: 100dvh;
+    }
+}
 
-/* BREAKPOINT: xl */
-@media (max-width: 1280px) {}
-
-/* BREAKPOINT: lg */
-@media (max-width: 1024px) {}
-
-/* BREAKPOINT: md */
-@media (max-width: 768px) {}
-
-/* BREAKPOINT: sm */
-@media (max-width: 640px) {}
-
-/* BREAKPOINT: xs */
-@media (max-width: 425px) {}
-
-/* BREAKPOINT: xxs */
-@media (max-width: 400px) {}
+@media (max-width: 768px) {
+    [data-module="hero_front"] {
+        height: 85dvh;
+    }
+}

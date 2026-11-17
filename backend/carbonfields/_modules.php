@@ -21,6 +21,7 @@ Container::make('post_meta', 'Module')
             // overview_projects
             ->add_fields('overview_projects', 'Übersicht Projekte', [
                 Field::make('image', 'title_section', 'Titel')->set_required(),
+                Field::make('rich_text', 'text', 'Text')->set_required(),
                 Field::make('association', 'selection', 'Auswahl Projekte')
                 ->set_types([
                         [
@@ -30,6 +31,15 @@ Container::make('post_meta', 'Module')
                 
                         ])
             ])
+
+            // -> About me
+            ->add_fields('about', 'About', [
+                Field::make('image', 'headline_image', 'Titelbild')->set_required(),
+                Field::make('image', 'image', 'Bild')->set_required(),
+                Field::make('text', 'subline', 'Subline')->set_required(),
+                Field::make('rich_text', 'text', 'Text')->set_required(),
+            ])
+
             // Text
             ->add_fields('text', 'Text', [
                 Field::make('text', 'title', 'Titel'),
@@ -76,6 +86,11 @@ function render_modules (): void {
                 }, $module['selection']);
                 $module['title_section'] = get_media_by_id($module['title_section'], 'full');
                 break;
+
+                case 'about':
+                    $module['headline_image'] = get_media_by_id($module['headline_image'], 'full');
+                    $module['image'] = get_media_by_id($module['image'], 'full');
+                    break;
 
             case 'images':
                 $module['images'] = array_map(function ($id) {

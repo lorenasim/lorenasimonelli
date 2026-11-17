@@ -4,6 +4,10 @@ $data = $args['data'] ?? [];
 
 <section data-module="overview_projects">
     <img class="title_section" src="<?= $data['title_section']['src'] ?>" alt="Titel Sektion">
+
+    <div class="text">
+        <?= wpautop($data['text']) ?>
+    </div>
     
     <div class="projects">
         <?php foreach ($data['selection'] as $project_id) : ?>
